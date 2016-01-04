@@ -37,16 +37,41 @@ class MainHandler(tornado.web.RequestHandler):
         self.req_id += 1
         # self.req_uri[self.req_id] = ""
 
+    def get_hash_params(self, request, path=None,  remote_ip=None):
+        print repr(request)
 
-    def get_hash_params(self, request):
-        x_real_ip = request.headers.get("X-Real-IP")
-        remote_ip = x_real_ip or request.remote_ip
-        resource = request.path.split("/")[-1]
+        if not remote_ip:
+            x_real_ip = request.headers.get("X-Real-IP")
+            if not hasattr(request, "remote_ip"):
+                request.remote_ip = ""
+            remote_ip = x_real_ip or request.remote_ip
+        if path:
+            resource = path.split("/")[-1]
+        else:
+            resource = request.path.split("/")[-1]
+
         # Create a hash key for resource dict with remote ip and resource name
         hash_key = util.make_key(remote_ip, resource)
-        logging.info("hash key %s created for ip %s and uri %s" %(hash_key, remote_ip, request.path))
+        logging.info("hash key %s created for ip %s and resource %s" %(hash_key, remote_ip, resource))
         return hash_key
 
+    def check_for_range_params(self):
+        range_in_query = self.get_query_argument("range", None)
+        if not range_in_query:
+            range_in_query = self.get_query_argument("Range", None)
+        requested_range = self.request.headers.get("Range", None)
+
+        if range_in_query and requested_range:
+            if range_in_query != requested_range:
+                self.send_error("416", "Incorrect range parameters")
+                self.finish()
+        elif range_in_query:
+            requested_range = range_in_query
+
+        logging.info("Received range in get request  %s for uri %s " % (requested_range, self.request.path))
+        if requested_range:
+            logging.info("Adding to range list %s" % requested_range)
+            self.range_list = RangeOperations.create_range(requested_range)
 
     @tornado.gen.coroutine
     def get(self, tail):
@@ -57,57 +82,29 @@ class MainHandler(tornado.web.RequestHandler):
             self.request_handler[hash_key] = self
             logging.info("storing handler object against key %s" % hash_key)
 
-        # If resource is video, audio, go into range request flow
-        resource = self.request.path.split("/")[-1]
-        ext = resource.split(".")[-1]
-        if ext in ["mp4", "mpeg", "mov", "mp3", "pdf", "doc", "docx"]:
-            #TODO - could also check content/type in header
-            # handle range requests
-            range_in_query = self.get_query_argument("range", None)
-            if not range_in_query:
-                range_in_query = self.get_query_argument("Range", None)
-            requested_range = self.request.headers.get("Range", None)
-
-            if range_in_query and requested_range:
-                if range_in_query != requested_range:
-                    self.send_error("416", "Incorrect range parameters")
-                    self.finish()
-            elif range_in_query:
-                requested_range = range_in_query
-
-            logging.info("Received range in get request  %s for uri %s " % (requested_range, self.request.path))
-            if requested_range:
-                self.range_list = RangeOperations.create_range(requested_range)
-
-            self.send_request_to_origin(self.request.path)
-        else:
-            try:
-                http = tornado.httpclient.AsyncHTTPClient()
-                response = yield http.fetch(self.request.path)
-
-                # retrieve the handler that was handling the request for the path and write back on the same response
-                # so it returns to the same user agent which made the request.
-                hash_key = self.get_hash_params(self.request)
-                req_handler = self.request_handler[hash_key]
-                req_handler.write(response.body)
-                req_handler.finish()
-            except Exception as err:
-                logging.error("Error in Fetching URL %s, details %s" % (self.request.path, err.errorno))
+        # resource = self.request.path.split("/")[-1]
+        # ext = resource.split(".")[-1]
+        self.check_for_range_params()
+        self.send_request_to_origin(self.request)
 
     @tornado.gen.coroutine
-    def send_request_to_origin(self, path):
+    def send_request_to_origin(self, request):
+        path = request.path
+        remote_ip = request.remote_ip
+        logging.info("In send_request_to_origin %s" % path)
+        #try:
         if self.range_list is None or self.range_list:
             http = tornado.httpclient.AsyncHTTPClient()
-            response = yield http.fetch(path)
+            response = yield http.fetch(path, raise_error=False)
 
-            hash_key = self.get_hash_params(self.request)
+            hash_key = self.get_hash_params(response.request, path, remote_ip)
             req_handler = self.request_handler[hash_key]
 
             if response.code in [200, 304]:
                 content_length = response.headers.get('Content-Length', None)
                 accept_ranges = response.headers.get('Accept-Ranges', None)
-                logging.info("Got content_length %s with accept_ranges %s" % (content_length, accept_ranbes))
-
+                logging.info("Got content_length %s with accept_ranges %s" % (content_length, accept_ranges))
+                resource = self.request.path.split("/")[-1]
                 resource_details = self.resource_cache.get(resource, None)
                 if resource_details is None:
                     self.resource_cache[resource] = {"path": path, "content-length": content_length}
@@ -140,6 +137,11 @@ class MainHandler(tornado.web.RequestHandler):
                 req_handler.finish()
         else:
             self.download_resource(path)
+        #except Exception as e:
+        #    print "EXCEPTION", e
+        #    logging.error("Error in Fetching URL %s" % (self.request.path))
+        #    pass
+
 
 
 def main():
