@@ -1,5 +1,6 @@
 import logging
 
+
 class RangeOperations:
     @staticmethod
     def create_range(str_range):
