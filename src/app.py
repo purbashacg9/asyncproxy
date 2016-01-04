@@ -37,26 +37,28 @@ class MainHandler(tornado.web.RequestHandler):
         self.req_id += 1
         # self.req_uri[self.req_id] = ""
 
-    @tornado.gen.coroutine
+
     def get_hash_params(self, request):
         x_real_ip = request.headers.get("X-Real-IP")
         remote_ip = x_real_ip or request.remote_ip
         resource = request.path.split("/")[-1]
-        return remote_ip, resource
+        # Create a hash key for resource dict with remote ip and resource name
+        hash_key = util.make_key(remote_ip, resource)
+        logging.info("hash key %s created for ip %s and uri %s" %(hash_key, remote_ip, request.path))
+        return hash_key
 
 
     @tornado.gen.coroutine
     def get(self, tail):
-        remote_ip, resource = self.get_hash_params(self.request)
-
-        # Create a hash key for resource dict with remote ip and resource name
-        hash_key = util.make_key(remote_ip, resource)
+        hash_key = self.get_hash_params(self.request)
 
         # save the instance of the application handler that is handing this request.
         if hash_key not in self.request_handler:
             self.request_handler[hash_key] = self
+            logging.info("storing handler object against key %s" % hash_key)
 
         # If resource is video, audio, go into range request flow
+        resource = self.request.path.split("/")[-1]
         ext = resource.split(".")[-1]
         if ext in ["mp4", "mpeg", "mov", "mp3", "pdf", "doc", "docx"]:
             #TODO - could also check content/type in header
@@ -85,14 +87,12 @@ class MainHandler(tornado.web.RequestHandler):
 
                 # retrieve the handler that was handling the request for the path and write back on the same response
                 # so it returns to the same user agent which made the request.
-                remote_ip, resource = self.get_hash_params(response.request)
-                hash_key = util.make_key(remote_ip, resource)
-
+                hash_key = self.get_hash_params(self.request)
                 req_handler = self.request_handler[hash_key]
                 req_handler.write(response.body)
                 req_handler.finish()
             except Exception as err:
-                logging.error("Error in Fetching URL %s" % self.request.path)
+                logging.error("Error in Fetching URL %s, details %s" % (self.request.path, err.errorno))
 
     @tornado.gen.coroutine
     def send_request_to_origin(self, path):
@@ -100,13 +100,13 @@ class MainHandler(tornado.web.RequestHandler):
             http = tornado.httpclient.AsyncHTTPClient()
             response = yield http.fetch(path)
 
-            remote_ip, resource = self.get_hash_params(response.request)
-            hash_key = util.make_key(remote_ip, resource)
+            hash_key = self.get_hash_params(self.request)
             req_handler = self.request_handler[hash_key]
 
-            if response.code == "200":
+            if response.code in [200, 304]:
                 content_length = response.headers.get('Content-Length', None)
                 accept_ranges = response.headers.get('Accept-Ranges', None)
+                logging.info("Got content_length %s with accept_ranges %s" % (content_length, accept_ranbes))
 
                 resource_details = self.resource_cache.get(resource, None)
                 if resource_details is None:
@@ -140,12 +140,6 @@ class MainHandler(tornado.web.RequestHandler):
                 req_handler.finish()
         else:
             self.download_resource(path)
-
-
-
-
-
-
 
 
 def main():
