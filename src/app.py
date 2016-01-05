@@ -93,6 +93,7 @@ class MainHandler(tornado.web.RequestHandler):
         logging.info('got response with code %s' % response.code)
         path = self.request.path
         remote_ip = self.request.remote_ip
+        #TODO - when response is received for remote what should hash_key resolve?
         hash_key = self.get_hash_params(response.request, path, remote_ip)
         if hash_key not in self.incoming_conns:
             logging.error("No incoming connection exists for remote_ip %s and path %s" %(remote_ip, path))
@@ -113,17 +114,19 @@ class MainHandler(tornado.web.RequestHandler):
                 self.resource_cache[resource] = {"path": path, "content-length": content_length}
 
             # send accept ranges back to the client
-            start_line = ResponseStartLine("HTTP/1.1", str(response.code), response.message)
+            start_line = ResponseStartLine("HTTP/1.1", str(response.code), response.reason)
+            in_conn.write_headers(start_line, response.headers)
+            in_conn.write(response.body)
         elif response.code == 416:
             logging.info("Origin server at %s returned response code %s " % (path, response.code))
             start_line = ResponseStartLine("HTTP/1.1", str(response.code), response.error.message)
+            in_conn.write_headers(start_line, response.headers)
         else:
             logging.error("Origin server at %s returned error code %s with message %s" %
                           (path, response.error.code, response.error.message))
             start_line = ResponseStartLine("HTTP/1.1", str(response.error.code), response.error.message)
+            in_conn.write_headers(start_line, response.headers)
 
-        in_conn.write_headers(start_line, response.headers)
-        in_conn.write(response.body)
         in_conn.finish()
 
 
@@ -138,7 +141,7 @@ class MainHandler(tornado.web.RequestHandler):
             out_req = tornado.httpclient.HTTPRequest(path, method="GET")
             for item, value in request.headers.iteritems():
                 out_req.headers[item] = value
-
+            out_req.request_timeout = 60
             response = yield self.http_client.fetch(out_req, raise_error=False)
             raise tornado.gen.Return(response)
         else:

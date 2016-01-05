@@ -11,11 +11,12 @@ class RangeOperations:
         byte_ranges = None
 
         # Look for "bytes" as range unit
-        if str_range.split("=")[0] != "bytes":
+        range_string = str_range.split("=")
+        if range_string[0] != "bytes":
             return None
 
         # Parse range string to form the list of tuples containing start and end pos
-        ranges = str_range.split(",")
+        ranges = range_string[1].split(",")
         byte_ranges = [tuple(r.split("-")) for r in ranges]
 
         byte_ranges = RangeOperations.validate_range(byte_ranges)
@@ -38,7 +39,7 @@ class RangeOperations:
         for byte_range in range_list:
             start_pos = long(byte_range[0]) if len(byte_range[0]) else 0
             end_pos = long(byte_range[1]) if len(byte_range[1]) else 0
-            numeric_byte_ranges.append(start_pos, end_pos)
+            numeric_byte_ranges.append((start_pos, end_pos))
 
         # sorted byte range list
         srt_byte_ranges = sorted(numeric_byte_ranges)
