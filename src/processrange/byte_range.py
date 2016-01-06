@@ -1,4 +1,5 @@
 import logging
+import sys
 
 
 class RangeOperations:
@@ -46,7 +47,6 @@ class RangeOperations:
 
         numeric_byte_ranges = []
         ind = 0
-        ind1 = 0
         while ind < len(srt_byte_ranges):
             # for non zero start and end pos, end pos should be greater than start pos
             if srt_byte_ranges[ind][1] and srt_byte_ranges[ind][0]:
@@ -56,8 +56,10 @@ class RangeOperations:
                 else:
                     logging.info("end pos less than start pos in byte range %s-%s " %
                                  (srt_byte_ranges[ind][0], srt_byte_ranges[ind][1]))
+            elif srt_byte_ranges[ind][0]:
+                numeric_byte_ranges.append((srt_byte_ranges[ind][0],sys.maxsize))
             else:
-                numeric_byte_ranges.append(srt_byte_ranges[ind])
+                numeric_byte_ranges.append((0, -srt_byte_ranges[ind][1]))
 
             ind += 1
 

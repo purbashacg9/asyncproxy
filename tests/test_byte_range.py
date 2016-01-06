@@ -1,4 +1,5 @@
 import unittest
+import sys
 import logging
 from src.processrange.byte_range import RangeOperations
 
@@ -20,7 +21,7 @@ class TestByteRange(unittest.TestCase):
 
         logging.info("Testing byte range creation for : %s" % SINGLE_PREFIX_BYTE_RANGE)
         created_range = RangeOperations.create_range(SINGLE_PREFIX_BYTE_RANGE)
-        self.assertEqual(created_range,[(1000,656999)], "Failed to create single prefix byte range")
+        self.assertEqual(created_range,[(1000,sys.maxsize)], "Failed to create single prefix byte range")
 
         logging.info("Testing byte range creation for : %s" % MULTIPLE_BYTE_RANGE)
         created_range = RangeOperations.create_range(MULTIPLE_BYTE_RANGE)
