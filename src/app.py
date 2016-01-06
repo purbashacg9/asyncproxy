@@ -13,6 +13,7 @@ from src.processrange.byte_range import RangeOperations
 
 define("port", default=8888, help="run on the given port", type=int)
 define("debug", default=False, help="run in debug mode")
+define("request_timeout", default=30, help="timeout for incoming requests", type=int)
 
 
 class MainHandler(tornado.web.RequestHandler):
@@ -53,7 +54,10 @@ class MainHandler(tornado.web.RequestHandler):
         range_in_query = self.get_query_argument("range", None)
         if not range_in_query:
             range_in_query = self.get_query_argument("Range", None)
+        logging.info("Range %s received as query param " % range_in_query)
+
         requested_range = self.request.headers.get("Range", None)
+        logging.info("Range %s received as request header " % requested_range)
 
         if range_in_query and requested_range:
             if range_in_query != requested_range:
@@ -103,6 +107,9 @@ class MainHandler(tornado.web.RequestHandler):
             accept_ranges = response.headers.get('Accept-Ranges', None)
             logging.info("Origin server at %s returned response code %s " % (path, response.code))
             logging.info("Got content_length %s with accept_ranges %s" % (content_length, accept_ranges))
+            if response.code == 206:
+                logging.info("Received Content-Range %s for Content-Type %s " %
+                             (response.headers.get('Content-Range', None), response.headers.get('Content-Type', None)))
 
             resource = self.request.path.split("/")[-1]
             resource_details = self.resource_cache.get(resource, None)
@@ -133,15 +140,21 @@ class MainHandler(tornado.web.RequestHandler):
         remote_ip = request.remote_ip
         logging.info("Get resource %s" % path)
         #try:
-        if self.range_list is None or self.range_list:
-            out_req = tornado.httpclient.HTTPRequest(path, method="GET")
-            for item, value in request.headers.iteritems():
-                out_req.headers[item] = value
-            out_req.request_timeout = 60
-            response = yield self.http_client.fetch(out_req, raise_error=False)
-            raise tornado.gen.Return(response)
-        else:
-            self.download_resource(path)
+
+        out_req = tornado.httpclient.HTTPRequest(path, method="GET")
+        for item, value in request.headers.iteritems():
+            out_req.headers[item] = value
+
+        # If there are items in range list, copy them into headers field.
+        # This takes care of sending range requests sent by client as query param
+        if  self.range_list:
+            out_req.headers.add("Range", RangeOperations.get_range_spec(self.range_list))
+
+        out_req.request_timeout = options.request_timeout
+        response = yield self.http_client.fetch(out_req, raise_error=False)
+        raise tornado.gen.Return(response)
+
+        #self.download_resource(path)
         #except Exception as e:
         #    print "EXCEPTION", e
         #    logging.error("Error in Fetching URL %s" % (self.request.path))

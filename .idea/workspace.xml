@@ -3,7 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="a4637a0c-6aae-4459-a14c-612452c58c4c" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/settings.conf" afterPath="$PROJECT_DIR$/settings.conf" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app.py" afterPath="$PROJECT_DIR$/src/app.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/processrange/byte_range.py" afterPath="$PROJECT_DIR$/src/processrange/byte_range.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/test_byte_range.py" afterPath="$PROJECT_DIR$/tests/test_byte_range.py" />
     </list>
     <ignored path="asyncproxy.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -18,7 +21,7 @@
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/asyncproxy$asyncproxy.coverage" NAME="asyncproxy Coverage Results" MODIFIED="1452064312739" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
-    <SUITE FILE_PATH="coverage/asyncproxy$Unittests_in_tests.coverage" NAME="Unittests in test_byte_range Coverage Results" MODIFIED="1452046485951" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/asyncproxy$Unittests_in_tests.coverage" NAME="Unittests in test_byte_range Coverage Results" MODIFIED="1452075143490" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
@@ -29,11 +32,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="app.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="app.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/app.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.1556064">
-              <caret line="40" column="54" selection-start-line="40" selection-start-column="54" selection-end-line="40" selection-end-column="54" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="152" column="57" selection-start-line="152" selection-start-column="57" selection-end-line="152" selection-end-column="57" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
               </folding>
@@ -41,11 +44,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="test_byte_range.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="test_byte_range.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/tests/test_byte_range.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.5430108">
+              <caret line="33" column="0" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -67,7 +70,7 @@
         <entry file="file://$PROJECT_DIR$/src/processrange/byte_range.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="65" column="34" selection-start-line="65" selection-start-column="34" selection-end-line="65" selection-end-column="34" />
+              <caret line="83" column="46" selection-start-line="83" selection-start-column="46" selection-end-line="83" selection-end-column="46" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
               </folding>
@@ -78,8 +81,8 @@
       <file leaf-file-name="settings.conf" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/settings.conf">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+            <state vertical-scroll-proportion="-1.59375">
+              <caret line="3" column="20" selection-start-line="3" selection-start-column="20" selection-end-line="3" selection-end-column="20" />
               <folding />
             </state>
           </provider>
@@ -101,15 +104,15 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/settings.conf" />
         <option value="$PROJECT_DIR$/src/util.py" />
         <option value="$PROJECT_DIR$/src/byte_range.py" />
         <option value="$PROJECT_DIR$/tests/tet_byte_range.py" />
         <option value="$PROJECT_DIR$/tests/__init__.py" />
         <option value="$PROJECT_DIR$/tests/test_byra.py" />
-        <option value="$PROJECT_DIR$/src/processrange/byte_range.py" />
-        <option value="$PROJECT_DIR$/tests/test_byte_range.py" />
+        <option value="$PROJECT_DIR$/settings.conf" />
         <option value="$PROJECT_DIR$/src/app.py" />
+        <option value="$PROJECT_DIR$/tests/test_byte_range.py" />
+        <option value="$PROJECT_DIR$/src/processrange/byte_range.py" />
       </list>
     </option>
   </component>
@@ -213,7 +216,7 @@
       <recent name="$PROJECT_DIR$/src/processrange" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.asyncproxy">
+  <component name="RunManager" selected="Python tests.Unittests in test_byte_range">
     <configuration default="true" type="DjangoTestsConfigurationType" factoryName="Django tests">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -506,53 +509,59 @@
       <option name="project" value="LOCAL" />
       <updated>1452046509382</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Correcting reference to tornado.httpclient">
+      <created>1452064697735</created>
+      <option name="number" value="00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1452064697735</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="Unittests_in_test_byra - 2016.01.05 at 17h 25m 10s.xml">
-      <configuration name="Unittests in test_byra" configurationId="tests" />
-    </history-entry>
-    <history-entry file="Unittests_in_test_byte_range - 2016.01.05 at 17h 27m 21s.xml">
+    <history-entry file="Unittests_in_test_byte_range - 2016.01.06 at 02h 03m 19s.xml">
       <configuration name="Unittests in test_byte_range" configurationId="tests" />
     </history-entry>
-    <history-entry file="Unittests_in_test_byte_range - 2016.01.05 at 17h 31m 20s.xml">
+    <history-entry file="Unittests_in_test_byte_range - 2016.01.06 at 02h 04m 05s.xml">
       <configuration name="Unittests in test_byte_range" configurationId="tests" />
     </history-entry>
-    <history-entry file="Unittests_in_test_byte_range - 2016.01.05 at 17h 33m 17s.xml">
+    <history-entry file="Unittests_in_test_byte_range - 2016.01.06 at 02h 04m 56s.xml">
       <configuration name="Unittests in test_byte_range" configurationId="tests" />
     </history-entry>
-    <history-entry file="Unittests_in_test_byte_range - 2016.01.05 at 17h 33m 58s.xml">
+    <history-entry file="Unittests_in_test_byte_range - 2016.01.06 at 02h 05m 22s.xml">
       <configuration name="Unittests in test_byte_range" configurationId="tests" />
     </history-entry>
-    <history-entry file="Unittests_in_test_byte_range - 2016.01.05 at 17h 42m 42s.xml">
+    <history-entry file="Unittests_in_test_byte_range - 2016.01.06 at 02h 07m 14s.xml">
       <configuration name="Unittests in test_byte_range" configurationId="tests" />
     </history-entry>
-    <history-entry file="Unittests_in_test_byte_range - 2016.01.05 at 17h 43m 29s.xml">
+    <history-entry file="Unittests_in_test_byte_range - 2016.01.06 at 02h 08m 47s.xml">
       <configuration name="Unittests in test_byte_range" configurationId="tests" />
     </history-entry>
-    <history-entry file="Unittests_in_test_byte_range - 2016.01.05 at 17h 48m 15s.xml">
+    <history-entry file="Unittests_in_test_byte_range - 2016.01.06 at 02h 09m 54s.xml">
       <configuration name="Unittests in test_byte_range" configurationId="tests" />
     </history-entry>
-    <history-entry file="Unittests_in_test_byte_range - 2016.01.05 at 18h 14m 04s.xml">
+    <history-entry file="Unittests_in_test_byte_range - 2016.01.06 at 02h 11m 26s.xml">
       <configuration name="Unittests in test_byte_range" configurationId="tests" />
     </history-entry>
-    <history-entry file="Unittests_in_test_byte_range - 2016.01.05 at 18h 14m 46s.xml">
+    <history-entry file="Unittests_in_test_byte_range - 2016.01.06 at 02h 11m 48s.xml">
+      <configuration name="Unittests in test_byte_range" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_in_test_byte_range - 2016.01.06 at 02h 12m 23s.xml">
       <configuration name="Unittests in test_byte_range" configurationId="tests" />
     </history-entry>
   </component>
   <component name="ToolWindowManager">
     <frame x="65" y="24" width="1855" height="931" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24959569" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24959569" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.43719807" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2910628" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -582,14 +591,15 @@
     <MESSAGE value="Changes  in hash key generation." />
     <MESSAGE value="Updates" />
     <MESSAGE value="Test Case for byte range" />
-    <option name="LAST_COMMIT_MESSAGE" value="Test Case for byte range" />
+    <MESSAGE value="Correcting reference to tornado.httpclient" />
+    <option name="LAST_COMMIT_MESSAGE" value="Correcting reference to tornado.httpclient" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="python-line">
           <url>file://$PROJECT_DIR$/tests/test_byte_range.py</url>
-          <line>34</line>
+          <line>41</line>
           <option name="timeStamp" value="22" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="python-line">
@@ -642,14 +652,6 @@
           <folding>
             <element signature="e#0#14#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/settings.conf">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -740,10 +742,28 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/settings.conf">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.59375">
+          <caret line="3" column="20" selection-start-line="3" selection-start-column="20" selection-end-line="3" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="152" column="57" selection-start-line="152" selection-start-column="57" selection-end-line="152" selection-end-column="57" />
+          <folding>
+            <element signature="e#0#14#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/processrange/byte_range.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="65" column="34" selection-start-line="65" selection-start-column="34" selection-end-line="65" selection-end-column="34" />
+          <caret line="83" column="46" selection-start-line="83" selection-start-column="46" selection-end-line="83" selection-end-column="46" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
           </folding>
@@ -752,20 +772,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/test_byte_range.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.5430108">
+          <caret line="33" column="0" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.1556064">
-          <caret line="40" column="54" selection-start-line="40" selection-start-column="54" selection-end-line="40" selection-end-column="54" />
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
           </folding>
         </state>
       </provider>

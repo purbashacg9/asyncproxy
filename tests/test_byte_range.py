@@ -27,8 +27,15 @@ class TestByteRange(unittest.TestCase):
         created_range = RangeOperations.create_range(MULTIPLE_BYTE_RANGE)
         self.assertEqual(created_range,[(1000,2000),(2001,4000), (4001, 5000)], "Failed to create multiple byte ranges")
 
-    def test_validate_range(self):
-        pass
+    def test_get_range(self):
+        get_range = RangeOperations.get_range_spec([(100,200)])
+        self.assertEqual(get_range, "bytes=100-200",
+                         "Incorrect byte range spec \'%s\' returned from get_range_spec" % get_range)
+
+        get_range = RangeOperations.get_range_spec([(100,200),(201,400)])
+        self.assertEqual(get_range, "bytes=100-200,201-400",
+                         "Incorrect byte range spec \'%s\' returned from get_range_spec" % get_range)
+
 
 
 

@@ -69,3 +69,27 @@ class RangeOperations:
     @staticmethod
     def intepret_range(start, end):
         pass
+
+    @staticmethod
+    def get_range_spec(range_list):
+        """
+        :param range_list: list of tuples containing start and end position of a byte range
+        :return: string containing byte range specifier in the form bytes="100-200,201-300"
+        Given a list of byte-range tuples return the complete byte range specifier
+        """
+        print range_list
+        byte_range = ""
+        while len(range_list):
+            if len(byte_range):
+                byte_range =  byte_range + ","
+            tup = range_list.pop(0)
+            print tup
+            if tup[0] and tup[1]:
+                byte_range = "".join((byte_range, str(tup[0]), "-", str(tup[1])))
+                print byte_range
+            elif tup[0]:
+                byte_range = "".join((byte_range, str(tup[[0]]),"-"))
+            else:
+                byte_range = "".join((byte_range, "-", str(tup[1])))
+
+        return "bytes=" + byte_range
