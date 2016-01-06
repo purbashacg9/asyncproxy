@@ -4,6 +4,7 @@ import tornado.escape
 import tornado.gen
 import tornado.ioloop
 import tornado.web
+import tornado.httpclient
 from tornado.httputil import ResponseStartLine
 from tornado.options import options, define, parse_config_file
 
