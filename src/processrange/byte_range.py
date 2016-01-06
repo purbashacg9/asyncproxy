@@ -52,14 +52,12 @@ class RangeOperations:
             if srt_byte_ranges[ind][1] and srt_byte_ranges[ind][0]:
                 if srt_byte_ranges[ind][1] > srt_byte_ranges[ind][0]:
                     # copy valid ranges back to numeric_byte_ranges
-                    numeric_byte_ranges[ind1] = srt_byte_ranges[ind]
-                    ind1 += 1
+                    numeric_byte_ranges.append(srt_byte_ranges[ind])
                 else:
                     logging.info("end pos less than start pos in byte range %s-%s " %
                                  (srt_byte_ranges[ind][0], srt_byte_ranges[ind][1]))
             else:
-                numeric_byte_ranges[ind1] = srt_byte_ranges[ind]
-                ind1 += 1
+                numeric_byte_ranges.append(srt_byte_ranges[ind])
 
             ind += 1
 
