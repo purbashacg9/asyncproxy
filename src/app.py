@@ -1,4 +1,6 @@
 import logging
+from datetime import datetime
+from datetime import timedelta
 
 import tornado.escape
 import tornado.gen
@@ -15,6 +17,30 @@ define("port", default=8888, help="run on the given port", type=int)
 define("debug", default=False, help="run in debug mode")
 define("request_timeout", default=30, help="timeout for incoming requests", type=int)
 
+class StatsManager(object):
+    def __init__(self):
+        self.start_time = 0 ###start time stored as ordinal
+        self.bytes_transmitted = 0
+        self.range_requests_handled = 0
+        self.counters = {"404": 0,
+                         "200": 0,
+                         "206": 0,
+                         "416": 0,
+                         "500": 0
+                         }
+        self.get_requests_handled = 0
+
+    def get_start_time(self):
+        """return start time in UTC"""
+        return datetime.fromtimestamp(self.start_time)
+
+    def get_up_time(self):
+        """return total up time as a string of the form Hours:1, Minutes:44, Seconds:30"""
+        current_time = datetime.now()
+        uptime = current_time - self.get_start_time()
+        uptime_string = ""
+        updays = timedelta(uptime, "days")
+        return uptime_string
 
 class MainHandler(tornado.web.RequestHandler):
 
@@ -160,6 +186,9 @@ class MainHandler(tornado.web.RequestHandler):
         #    logging.error("Error in Fetching URL %s" % (self.request.path))
         #    pass
 
+class StatsHandler(tornado.web.RequestHandler):
+    """Render html page showing Proxy Stats"""
+    pass
 
 
 def main():
@@ -168,6 +197,7 @@ def main():
     app = tornado.web.Application(
         [
             (r"(.*)", MainHandler),
+            (r"/stats", StatsHandler)
        ],
         debug=options.debug,
         )
