@@ -14,7 +14,6 @@ class StatsHandler(object):
         self.start_time = time.mktime(start.timetuple())
         # running sum of content length transmitting received from origin server
         self.bytes_transmitted = 0
-        self.range_requests_handled = 0
         self.counters = {"404": 0,
                          "200": 0,
                          "206": 0,
@@ -66,3 +65,10 @@ class StatsHandler(object):
             # response code not found in counter dict
             pass
 
+    def get(self):
+        allstats = {}
+        allstats["Start Time"] = self.start_time
+        allstats["Bytes Transmitted"] = self.bytes_transmitted
+        allstats["Number of Get Requests Handled"] = self.get_requests_handled
+
+        self.render("templates/stats.html", stats=allstats, counters = self.counters)

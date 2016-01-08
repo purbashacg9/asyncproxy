@@ -77,6 +77,10 @@ class MainHandler(tornado.web.RequestHandler):
 
     @tornado.gen.coroutine
     def get(self, tail):
+        if tail == '/stats':
+            # redirect to StatsHandler
+            self.redirect("/stats")
+
         self.stats_manager.set_requests_handled()
         hash_key = self.get_hash_params(self.request)
 
