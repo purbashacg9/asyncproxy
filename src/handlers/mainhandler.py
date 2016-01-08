@@ -9,7 +9,10 @@ from tornado.httputil import ResponseStartLine
 
 from src import util
 from src.processrange.byte_range import RangeOperations
-from statshandler import StatsHandler
+from src.handlers.statshandler import StatsHandler
+
+# global variables
+g_stats_handler = StatsHandler(datetime.now())
 
 class MainHandler(tornado.web.RequestHandler):
 
@@ -26,8 +29,6 @@ class MainHandler(tornado.web.RequestHandler):
         self.resource_partial_cache = {}
 
         self.http_client = tornado.httpclient.AsyncHTTPClient()
-
-        self.stats_manager = StatsHandler(datetime.now())
 
         self.request_timeout = request_timeout
 
@@ -79,9 +80,18 @@ class MainHandler(tornado.web.RequestHandler):
     def get(self, tail):
         if tail == '/stats':
             # redirect to StatsHandler
-            self.redirect("/stats")
+            #self.redirect("/stats")
+            #self.stats_handler.get()
+            allstats = {}
+            allstats["Start Time"] = g_stats_handler.get_start_time()
+            allstats["Up Time"] = g_stats_handler.get_up_time()
+            allstats["Bytes Transmitted"] = g_stats_handler.get_bytes_transmitted()
+            allstats["Number of Get Requests Handled"] = g_stats_handler.requests_handled()
 
-        self.stats_manager.set_requests_handled()
+            self.render("templates/stats.html", stats=allstats, counters = g_stats_handler.get_counters())
+            return
+
+        g_stats_handler.set_requests_handled()
         hash_key = self.get_hash_params(self.request)
 
         # save the instance of the application handler that is handing this request.
@@ -106,14 +116,14 @@ class MainHandler(tornado.web.RequestHandler):
             in_conn = self.incoming_conns[hash_key]
             logging.info("Found HTTPConnection object for remote_ip %s and path %s" %(remote_ip, path))
 
-        self.stats_manager.set_response_type_counter(response.code)
+        g_stats_handler.set_response_type_counter(str(response.code))
 
         if response.code in [200, 304, 206]:
             content_length = response.headers.get('Content-Length', None)
             accept_ranges = response.headers.get('Accept-Ranges', None)
             logging.info("Origin server at %s returned response code %s " % (path, response.code))
             logging.info("Got content_length %s with accept_ranges %s" % (content_length, accept_ranges))
-            self.stats_manager.set_bytes_transmitted(content_length)
+            g_stats_handler.set_bytes_transmitted(content_length)
 
             if response.code == 206:
                 logging.info("Received Content-Range %s for Content-Type %s " %
@@ -134,8 +144,8 @@ class MainHandler(tornado.web.RequestHandler):
             in_conn.write_headers(start_line, response.headers)
         else:
             logging.error("Origin server at %s returned error code %s with message %s" %
-                          (path, response.error.code, response.error.message))
-            start_line = ResponseStartLine("HTTP/1.1", str(response.error.code), response.error.message)
+                          (path, response.code, response.error.message))
+            start_line = ResponseStartLine("HTTP/1.1", str(response.code), response.error.message)
             in_conn.write_headers(start_line, response.headers)
 
         in_conn.finish()

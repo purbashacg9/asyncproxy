@@ -5,7 +5,7 @@
 <body>
     <h1>Proxy Server Operation Data</h1>
     <table>
-        {% for name, value in stats %}
+        {% for name, value in stats.iteritems() %}
             <tr>
                 <td>{{ name }}</td>
                 <td>{{ value }}</td>
@@ -14,7 +14,7 @@
         <tr>
             <td colspan="2">Count of HTTP Response Types </td>
         </tr>
-        {% for name, value in counters %}
+        {% for name, value in counters.iteritems() %}
             <tr>
                 <td>{{ name }}</td>
                 <td>{{ value }}</td>

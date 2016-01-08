@@ -26,6 +26,9 @@ class StatsHandler(object):
         """return start time in UTC"""
         return datetime.fromtimestamp(self.start_time)
 
+    def requests_handled(self):
+        return self.get_requests_handled
+
     def get_up_time(self):
         """return total up time as a string of the form Hours:1, Minutes:44, Seconds:30"""
         current_time = datetime.now()
@@ -42,8 +45,15 @@ class StatsHandler(object):
         uptime_string = "Uptime is {0} {1} Hours and {2} Minutes".format(days, hhmmss[0], hhmmss[1])
         return uptime_string
 
+    def get_bytes_transmitted(self):
+        return self.bytes_transmitted
+
+    def get_counters(self):
+        return self.counters
+
     def set_bytes_transmitted(self, bytes_count):
-        self.bytes_transmitted += int(bytes_count)
+        if bytes_count:
+            self.bytes_transmitted += int(bytes_count)
 
     def set_requests_handled(self, count = 1):
         """
@@ -59,16 +69,16 @@ class StatsHandler(object):
         :return: None
         """
         counter = self.counters.get(response_code, None)
-        if counter:
-            self.counters[response_code] += 1
+        if counter is not None:
+            self.counters[response_code] = counter + 1
         else:
             # response code not found in counter dict
             pass
 
-    def get(self):
-        allstats = {}
-        allstats["Start Time"] = self.start_time
-        allstats["Bytes Transmitted"] = self.bytes_transmitted
-        allstats["Number of Get Requests Handled"] = self.get_requests_handled
-
-        self.render("templates/stats.html", stats=allstats, counters = self.counters)
+    # def get(self):
+    #     allstats = {}
+    #     allstats["Start Time"] = self.start_time
+    #     allstats["Bytes Transmitted"] = self.bytes_transmitted
+    #     allstats["Number of Get Requests Handled"] = self.get_requests_handled
+    #
+    #     self.render("templates/stats.html", stats=allstats, counters = self.counters)
