@@ -109,7 +109,6 @@ class MainHandler(tornado.web.RequestHandler):
         hash_key = self.get_hash_params(response.request, path, remote_ip)
         if hash_key not in self.incoming_conns:
             logging.error("No incoming connection exists for remote_ip %s and path %s" %(remote_ip, path))
-            #TODO REturn error from here? How?
         else:
             in_conn = self.incoming_conns[hash_key]
             logging.info("Found HTTPConnection object for remote_ip %s and path %s" %(remote_ip, path))
