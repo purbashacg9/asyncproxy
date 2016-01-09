@@ -11,7 +11,7 @@ define("request_timeout", default=30, help="timeout for incoming requests", type
 
 def main():
     try:
-        parse_config_file("/home/purbasha/Projects/learntornado/settings.conf")
+        parse_config_file("settings.conf")
 
         app = tornado.web.Application(
             [
