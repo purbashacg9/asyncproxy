@@ -1,7 +1,8 @@
-import unittest
-import sys
 import logging
-from src.processrange.byte_range import RangeOperations
+import sys
+import unittest
+
+from processrange.byte_range import RangeOperations
 
 SINGLE_BYTE_RANGE = "bytes=656708-656999"
 SINGLE_SUFFIX_BYTE_RANGE = "bytes=-1"
