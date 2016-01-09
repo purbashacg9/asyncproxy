@@ -8,6 +8,7 @@ servers.
 3. Accepts byte ranges as query params. If byte range in header does not
 match the byte range in query param, 416 request is returned. 
 4. Uses Tornado's asynchronous IO loops and coroutines for asyn behavior. 
+5. Does not cache any of the requested files. 
 
 ## Configuration 
 settings.conf contains config settings.  
