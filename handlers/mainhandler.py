@@ -63,8 +63,7 @@ class MainHandler(tornado.web.RequestHandler):
             if range_in_query != requested_range:
                 logging.error("Mismatch in ranges -> Range in header %s, rang in query param %s" %
                                                     (requested_range, range_in_query))
-                self.send_error("416", "Incorrect range parameters")
-                self.finish()
+                return False
         elif range_in_query:
             requested_range = range_in_query
 
@@ -74,7 +73,7 @@ class MainHandler(tornado.web.RequestHandler):
             self.range_list = RangeOperations.create_range(requested_range)
             for range in self.range_list:
                 logging.info("Range added to list with start %s end %s" % (range[0], range[1]))
-
+        return True
 
     @tornado.gen.coroutine
     def get(self, tail):
@@ -96,9 +95,11 @@ class MainHandler(tornado.web.RequestHandler):
             self.incoming_conns[hash_key] = self.request.connection
             logging.info("save connection  object against key %s" % hash_key)
 
-        # resource = self.request.path.split("/")[-1]
-        # ext = resource.split(".")[-1]
-        self.check_for_range_params()
+        if not (self.check_for_range_params()):
+            self.send_error(416, message="Range not satisfiable")
+            self.finish()
+            return
+
         response = yield self.send_request_to_origin(self.request)
 
         logging.info('got response with code %s' % response.code)
